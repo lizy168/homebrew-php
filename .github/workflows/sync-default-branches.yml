@@ -51,7 +51,8 @@ jobs:
       - name: Get target SHA
         id: sha
         run: |
-          TARGET_SHA=$(git ls-remote origin "refs/heads/${SOURCE_BRANCH}" | cut -f1)
+          git fetch origin "refs/heads/${SOURCE_BRANCH}"
+          TARGET_SHA=$(git rev-parse FETCH_HEAD)
           echo "target=${TARGET_SHA}" >> "$GITHUB_OUTPUT"
         env:
           SOURCE_BRANCH: ${{ steps.branches.outputs.source }}
