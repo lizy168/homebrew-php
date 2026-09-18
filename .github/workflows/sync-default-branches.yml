@@ -57,7 +57,7 @@ jobs:
           SOURCE_BRANCH: ${{ steps.branches.outputs.source }}
 
       - name: Push target branch
-        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        if: github.event_name == 'push' || (github.event_name == 'pull_request' && (github.base_ref == 'main' || github.base_ref == 'master'))
         run: git push origin "${TARGET_SHA}:refs/heads/${TARGET_BRANCH}" --force
         env:
           TARGET_SHA: ${{ steps.sha.outputs.target }}
